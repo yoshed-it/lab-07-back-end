@@ -20,18 +20,18 @@ function searchToLatLong(request, response) {
   try {
 
     const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEO_API_KEY}`;
-   
+
     return superagent.get(URL)
 
-      .then( geoResponse => {
+      .then(geoResponse => {
         const location = new Location(request.query.data, geoResponse.body);
         response.send(location);
       })
-      .catch (error => {
+      .catch(error => {
         handleError(error, response);
       });
   }
-  catch(error){
+  catch (error) {
 
     handleError(error, response);
   }
@@ -39,14 +39,20 @@ function searchToLatLong(request, response) {
 
 function searchTimeForcast(request, response) {
   try {
-    const rawWeatherData = require('./data/darksky.json');
-    let daySummaries = rawWeatherData.daily.data.map((dayData) => {
-      return new Weather(dayData);
-    });
 
-    response.send(daySummaries);
+    const URL = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`;
+
+    return superagent.get(URL)
+      .then(weatherResponse => {
+        const weather = new Weather(request.query.data, weatherResponse.body);
+        console.log(weather);
+        response.send(weather);
+      });
+
+
   } catch (error) {
     handleError(error, response);
+
   }
 
 }
