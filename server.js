@@ -10,67 +10,56 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
 
-app.get('/location', (request, response) =>{
+app.get('/location', searchToLatLong);
+app.get('/weather', searchTimeForcast);
 
-  const locationData = searchToLatLong(request.query.data);
-  response.send(locationData);
+
+
+function searchToLatLong(request, response) {
   try {
-    const locationData = require('./data/geo.json');
-    response.send(locationData);
+    const rawGeoData = require('./data/geo.json');
+    const location = new Location(request.query.data, rawGeoData);
+    response.send(location);
   } catch (error) {
     handleError(error, response);
   }
-});
+}
 
-app.get('/weather', (request, response) =>{ 
-
-  const weatherData = searchTimeForcast(request.query.data);
-  response.send(weatherData);
+function searchTimeForcast(request, response) {
   try {
-    const weatherData = require('./data/darksky.json');
-    response.send(weatherData);
+    const rawWeatherData = require('./data/darksky.json');
+    const daySummaries = [];
+    rawWeatherData.daily.data.forEach(dayData => {
+      daySummaries.push(new Weather(dayData));
+    });
+
+    response.send(daySummaries);
   } catch (error) {
     handleError(error, response);
-    
   }
-  
-});
 
-function handleError(error, response){
-  console.error(error);
-  response.status(500).send('Nope!');
-}
-
-function searchToLatLong(query) {
-  const geoData = require('./data/geo.json');
-  console.log(geoData);
-  const location = new Location(query, geoData);
-  return location;
 }
 
 
-function searchTimeForcast(query) {
-  const weatherData = require('./data/darksky.json');
-  const weather = new Weather(query, weatherData);
-  console.log( weather);
-  return weather;
-}
-
-function Location(query, geoData){
+function Location(query, geoData) {
   this.search_query = query;
   this.formated_query = geoData.results[0].formatted_address;
   this.latitude = geoData.results[0].geometry.location.lat;
   this.longitude = geoData.results[0].geometry.location.lng;
 }
-function Weather(query, weatherData){
-  this.search_query = query;
-  this.time = weatherData.daily.data[0].time;
-  this.forcast = weatherData.daily.data[0].summary;
+function Weather(dayData) {
+
+  this.time = new Date(dayData.time * 1000).toString().slice(0, 15);
+  this.forcast = dayData.summary;
+}
+function handleError(error, response) {
+  console.error(error);
+  response.status(500).send('Nope!');
 }
 
 
 
 
-app.listen(PORT, () => console.log(`App is listening on ${PORT}`) );
+app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
 
 
