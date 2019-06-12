@@ -28,9 +28,8 @@ function searchToLatLong(request, response) {
 function searchTimeForcast(request, response) {
   try {
     const rawWeatherData = require('./data/darksky.json');
-    const daySummaries = [];
-    rawWeatherData.daily.data.forEach(dayData => {
-      daySummaries.push(new Weather(dayData));
+    let daySummaries = rawWeatherData.daily.data.map((dayData) => {
+      return new Weather(dayData);
     });
 
     response.send(daySummaries);
