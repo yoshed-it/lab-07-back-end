@@ -8,6 +8,7 @@ const cors = require('cors'); //cross origin request sharing
 // Application Setup
 const PORT = process.env.PORT;
 const app = express();
+const superagent = require('superagent');
 app.use(cors());
 
 app.get('/location', searchToLatLong);
@@ -17,10 +18,21 @@ app.get('/weather', searchTimeForcast);
 
 function searchToLatLong(request, response) {
   try {
-    const rawGeoData = require('./data/geo.json');
-    const location = new Location(request.query.data, rawGeoData);
-    response.send(location);
-  } catch (error) {
+
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEO_API_KEY}`;
+   
+    return superagent.get(URL)
+
+      .then( geoResponse => {
+        const location = new Location(request.query.data, geoResponse.body);
+        response.send(location);
+      })
+      .catch (error => {
+        handleError(error, response);
+      });
+  }
+  catch(error){
+
     handleError(error, response);
   }
 }
