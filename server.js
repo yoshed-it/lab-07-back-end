@@ -28,7 +28,7 @@ function searchToLatLong(request, response) {
       })
       .catch (error => {
         handleError(error, response);
-      })
+      });
   }
   catch(error){
     handleError(error, response);
