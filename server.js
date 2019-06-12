@@ -18,6 +18,7 @@ app.get('/weather', searchTimeForcast);
 
 function searchToLatLong(request, response) {
   try {
+
     const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEO_API_KEY}`;
    
     return superagent.get(URL)
@@ -31,6 +32,7 @@ function searchToLatLong(request, response) {
       });
   }
   catch(error){
+
     handleError(error, response);
   }
 }
