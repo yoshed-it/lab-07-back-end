@@ -43,9 +43,9 @@ Actual time needed to complete: 1 Hour
 
 ***Number and name of feature:*** 
 
-Estimate of time needed to complete: Database Setup
+Estimate of time needed to complete: 3. Database Setup
 
-Start time: 12:13
+Start time: 12:15
 
 Finish time: 12:30
 
