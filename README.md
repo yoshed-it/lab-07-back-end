@@ -31,11 +31,11 @@ Finish time: 11:15am
 
 Actual time needed to complete: 45 minutes 
 
-***Number and name of feature:*** ________________________________
+***Number and name of feature:*** 2. Heroku Deployment
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: 1 Hour
 
-Start time: _____
+Start time: 11:30
 
 Finish time: _____
 
