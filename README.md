@@ -47,8 +47,8 @@ Estimate of time needed to complete: Database Setup
 
 Start time: 12:13
 
-Finish time: _____
+Finish time: 12:30
 
-Actual time needed to complete: _____  
+Actual time needed to complete: 15 minutes  
 
 ## Uses MIT License
