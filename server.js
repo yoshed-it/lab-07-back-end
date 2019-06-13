@@ -12,7 +12,25 @@ const superagent = require('superagent');
 app.use(cors());
 
 app.get('/location', searchToLatLong);
-app.get('/weather', searchTimeForcast);
+app.get('/weather', handleWeather);
+
+function handleWeather(request, response){
+  searchTimeForcast(request.query)
+    .then(data => {
+      response.send(data)
+      // console.log(data)
+    })
+    .catch(error => handleError(error, response))
+
+}
+
+function searchTimeForcast(query) {
+  const URL = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${query.data.latitude},${query.data.longitude}`
+  // console.log(URL)
+  return superagent.get(URL)
+    .then(response => response.body.daily.data.map(day => new Weather(day) ))
+    .catch(error => handleError(error));
+}
 
 
 
@@ -20,6 +38,8 @@ function searchToLatLong(request, response) {
   try {
 
     const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEO_API_KEY}`;
+
+    console.log(URL)
 
     return superagent.get(URL)
 
@@ -37,26 +57,6 @@ function searchToLatLong(request, response) {
   }
 }
 
-function searchTimeForcast(request, response) {
-  try {
-
-    const URL = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`;
-
-    return superagent.get(URL)
-      .then(weatherResponse => {
-        const weather = new Weather(request.query.data, weatherResponse.body);
-        console.log(weather);
-        response.send(weather);
-      });
-
-
-  } catch (error) {
-    handleError(error, response);
-
-  }
-
-}
-
 
 function Location(query, geoData) {
   this.search_query = query;
@@ -65,16 +65,14 @@ function Location(query, geoData) {
   this.longitude = geoData.results[0].geometry.location.lng;
 }
 function Weather(dayData) {
-
+  this.forecast = dayData.summary;
   this.time = new Date(dayData.time * 1000).toString().slice(0, 15);
-  this.forcast = dayData.summary;
+
 }
 function handleError(error, response) {
   console.error(error);
   response.status(500).send('Nope!');
 }
-
-
 
 
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
