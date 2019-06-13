@@ -40,7 +40,7 @@ function searchToLatLong(request, response) {
 function searchTimeForcast(request, response) {
   try {
 
-    const URL = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`;
+    const URL = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${query.data.longitude}`;
 
     return superagent.get(URL)
       .then(weatherResponse => {
@@ -48,7 +48,7 @@ function searchTimeForcast(request, response) {
         console.log(weather);
         response.send(weather);
       });
-
+// .then(res =>.body.daily.data.map(day+>))
 
   } catch (error) {
     handleError(error, response);
