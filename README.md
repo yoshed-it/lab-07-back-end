@@ -1,13 +1,13 @@
-# lab-06-back-end
+# lab-08: Persistence with a SQL database
 
-**Author**: Josh Nebe
+**Author**: Lillian Gales & Sara Haynes
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+Create a website that takes a request from the client and returns data. Also, stores data (lat/long) locally.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+Setting up Location finder from Google databases and Weather finder from Dark Sky.
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
@@ -22,4 +22,33 @@
 
 ## Credits and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
--->
+***Number and name of feature:*** 1. Weather
+Estimate of time needed to complete: 30 minutes
+
+Start time: 10:30am
+
+Finish time: 11:15am
+
+Actual time needed to complete: 45 minutes 
+
+***Number and name of feature:*** ________________________________
+
+Estimate of time needed to complete: _____
+
+Start time: _____
+
+Finish time: _____
+
+Actual time needed to complete: _____  
+
+***Number and name of feature:*** ________________________________
+
+Estimate of time needed to complete: _____
+
+Start time: _____
+
+Finish time: _____
+
+Actual time needed to complete: _____  
+
+## Uses MIT License
